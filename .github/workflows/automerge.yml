@@ -10,6 +10,9 @@ jobs:
     # Specifically check that dependabot (or another trusted party) created this pull-request, and that it has been labelled correctly.
     if: github.event.pull_request.user.login == 'abrahammurciano' && contains(github.event.pull_request.labels.*.name, 'automerge')
     steps:
-    - uses: alexwilson/enable-github-automerge-action@main
-      with:
-        github-token: "${{ secrets.PERSONAL_GH_TOKEN }}"
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.15.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_METHOD: rebase
