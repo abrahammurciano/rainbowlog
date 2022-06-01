@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rainbowlog"
-version = "0.1.1"
+version = "0.2.0"
 description = "Format your python logs with colours based on the log levels."
 authors = ["Abraham Murciano <abrahammurciano@gmail.com>"]
 license = "MIT"

@@ -11,6 +11,9 @@ default_config = {
     logging.CRITICAL: {"fg": "red", "style": "bold+italic+underline"},
 }
 
+default_exception_config = default_config[logging.CRITICAL]
+default_stack_config = default_config[logging.ERROR]
+
 
 class Formatter(logging.Formatter):
     """This log formatter wraps a given formatter and adds color to the output.
@@ -30,11 +33,15 @@ class Formatter(logging.Formatter):
         self,
         inner_formatter: logging.Formatter,
         color_configs: Mapping[int, Mapping[str, Any]] = default_config,
+        exception_config: Mapping[str, Any] = default_exception_config,
+        stack_config: Mapping[str, Any] = defaul_stack_config,
     ):
         """
         Args:
-                inner_formatter: The formatter to use for the log messages.
-                color_configs: A mapping from log levels to keyword arguments for the ansicolors library's color function.
+            inner_formatter: The formatter to use for the log messages.
+            color_configs: A mapping from log levels to keyword arguments for the ansicolors library's color function.
+            exception_config: The keyword arguments to pass to color for formatting exceptions.
+            stack_config: The keyword arguments to pass to color for formatting stack traces.
         """
         self.formatter = inner_formatter
         self.configs = color_configs
@@ -43,3 +50,9 @@ class Formatter(logging.Formatter):
         return color(
             self.formatter.format(record), **self.configs.get(record.levelno, {})
         )
+
+    def formatException(exc_info):
+        return color(self.formatter.formatException(exc_info), **self.exception_config)
+
+    def formatStack(stack_info):
+        return color(self.formatter.formatStack(stack_info), **self.stack_config)
