@@ -1,0 +1,40 @@
+from dataclasses import dataclass
+from typing import Any, Optional
+from colors import color
+import logging
+
+
+@dataclass
+class AnsiConfig:
+    fg: Optional[str] = None
+    bg: Optional[str] = None
+    style: Optional[str] = "italic+bold"
+
+
+class ColourLogFormatter(logging.Formatter):
+    def __init__(
+        self,
+        *formatter_args: Any,
+        debug_config: AnsiConfig = AnsiConfig(fg="grey"),
+        info_config: AnsiConfig = AnsiConfig(fg="green"),
+        warning_config: AnsiConfig = AnsiConfig(fg="yellow"),
+        error_config: AnsiConfig = AnsiConfig(fg="red"),
+        critical_config: AnsiConfig = AnsiConfig(
+            fg="red", style="negative+italic+bold+underline"
+        ),
+        **formatter_kwargs: Any,
+    ):
+        super().__init__(*formatter_args, **formatter_kwargs)
+        self.configs = {
+            logging.DEBUG: debug_config,
+            logging.INFO: info_config,
+            logging.WARNING: warning_config,
+            logging.ERROR: error_config,
+            logging.CRITICAL: critical_config,
+        }
+
+    def format(self, record: logging.LogRecord) -> str:
+        return color(super().format(record), **vars(self.configs[record.levelno]))
+
+
+ColorLogFormatter = ColourLogFormatter
