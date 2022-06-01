@@ -34,7 +34,7 @@ class Formatter(logging.Formatter):
         inner_formatter: logging.Formatter,
         color_configs: Mapping[int, Mapping[str, Any]] = default_config,
         exception_config: Mapping[str, Any] = default_exception_config,
-        stack_config: Mapping[str, Any] = defaul_stack_config,
+        stack_config: Mapping[str, Any] = default_stack_config,
     ):
         """
         Args:
