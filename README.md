@@ -45,4 +45,4 @@ if __name__ == '__main__':
 
 ## Docs
 
-You can find the documentation [here](https://abrahammurciano.github.io/rainbowlog/)
+You can find the documentation [here](https://abrahammurciano.github.io/rainbowlog/rainbowlog)
