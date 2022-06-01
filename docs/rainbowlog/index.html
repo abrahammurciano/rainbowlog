@@ -51,19 +51,7 @@ The available styles are "none", "bold", "faint", "italic", "underline", "blink"
 <dd>The formatter to use for the log messages.</dd>
 <dt><strong><code>color_configs</code></strong></dt>
 <dd>A mapping from log levels to keyword arguments for the ansicolors library's color function.</dd>
-</dl>
-<p>Initialize the formatter with specified format strings.</p>
-<p>Initialize the formatter either with the specified format string, or a
-default as described above. Allow for specialized date formatting with
-the optional datefmt argument. If datefmt is omitted, you get an
-ISO8601-like (or RFC 3339-like) format.</p>
-<p>Use a style parameter of '%', '{' or '$' to specify that you want to
-use one of %-formatting, :meth:<code>str.format</code> (<code>{}</code>) formatting or
-:class:<code>string.Template</code> formatting in your format string.</p>
-<div class="admonition versionchanged">
-<p class="admonition-title">Changed in version:&ensp;3.2</p>
-<p>Added the <code>style</code> parameter.</p>
-</div></div>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>logging.Formatter</li>

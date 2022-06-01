@@ -24,16 +24,17 @@ class Formatter(logging.Formatter):
 
 	The available colors are "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white".
 	The available styles are "none", "bold", "faint", "italic", "underline", "blink", "blink2", "negative", "concealed", "crossed".
-
-	Args:
-		inner_formatter: The formatter to use for the log messages.
-		color_configs: A mapping from log levels to keyword arguments for the ansicolors library's color function.
 	"""
 	def __init__(
 		self,
 		inner_formatter: logging.Formatter,
 		color_configs: Mapping[int, Mapping[str, Any]] = default_config
 	):
+		"""
+		Args:
+			inner_formatter: The formatter to use for the log messages.
+			color_configs: A mapping from log levels to keyword arguments for the ansicolors library's color function.
+		"""
 		self.formatter = inner_formatter
 		self.configs = color_configs
 
