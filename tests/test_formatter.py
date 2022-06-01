@@ -38,6 +38,3 @@ def record(level: int, message: str) -> logging.LogRecord:
 
 def test_format(formatter: Formatter, color_config: Mapping[str, Any], record: logging.LogRecord, message: str) -> None:
 	assert formatter.format(record) == color(message, **color_config)
-
-def test_fail()
-	assert False
