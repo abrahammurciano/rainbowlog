@@ -1,3 +1,8 @@
+"""
+.. include:: ../README.md
+"""
+
+
 import logging
 from typing import Any, Mapping
 from colors import color
