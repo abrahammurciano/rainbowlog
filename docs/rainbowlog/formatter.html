@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>rainbowlog API documentation</title>
-<meta name="description" content="Rainbow Log …" />
+<title>rainbowlog.formatter API documentation</title>
+<meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,82 +19,83 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Package <code>rainbowlog</code></h1>
+<h1 class="title">Module <code>rainbowlog.formatter</code></h1>
 </header>
 <section id="section-intro">
-<h1 id="rainbow-log">Rainbow Log</h1>
-<p>Format your python logs with colours based on the log levels.</p>
-<h2 id="installation">Installation</h2>
-<pre><code>pip install rainbowlog
-</code></pre>
-<h2 id="usage">Usage</h2>
-<p>Here's a basic example of a script that logs colorfully to the console, but regularly to a file.</p>
-<pre><code class="language-python">import logging
-import rainbowlog
-
-logger = logging.getLogger(__name__)
-
-# This one will write to the console
-stream_handler = logging.StreamHandler()
-
-# This one will write to a file
-file_handler = logging.FileHandler('output.log')
-
-# Here we decide how we want the logs to look like
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-# We want the stream handler to be colorful
-stream_handler.setFormatter(rainbowlog.Formatter(formatter))
-
-# We don't want the file handler to be colorful
-file_handler.setFormatter(formatter)
-
-# Finally we add the handlers to the logger
-logger.addHandler(stream_handler)
-logger.addHandler(file_handler)
-
-if __name__ == '__main__':
-    logger.debug('This is a debug message')
-    logger.info('This is an info message')
-    logger.warning('This is a warning message')
-    logger.error('This is an error message')
-    logger.critical('This is a critical message')
-</code></pre>
-<h2 id="docs">Docs</h2>
-<p>You can find the documentation <a href="https://abrahammurciano.github.io/rainbowlog/rainbowlog">here</a></p>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt><code class="name"><a title="rainbowlog.formatter" href="formatter.html">rainbowlog.formatter</a></code></dt>
+<dt id="rainbowlog.formatter.Formatter"><code class="flex name class">
+<span>class <span class="ident">Formatter</span></span>
+<span>(</span><span>inner_formatter: logging.Formatter, color_configs: Mapping[int, Mapping[str, Any]] = {10: {'fg': 'grey', 'style': 'bold+italic'}, 20: {'fg': 'green', 'style': 'bold+italic'}, 30: {'fg': 'yellow', 'style': 'bold+italic'}, 40: {'fg': 'red', 'style': 'bold+italic'}, 50: {'fg': 'red', 'style': 'bold+italic+underline'}})</span>
+</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This log formatter wraps a given formatter and adds color to the output.</p>
+<p>If you want to use different colors from the default ones, you can pass a mapping to the color_configs argument in the constructor. This mapping should be from log levels (ints) to keyword arguments for the ansicolors library's color function. You can find more information on this library here: <a href="https://github.com/jonathaneunice/colors.">https://github.com/jonathaneunice/colors.</a></p>
+<p>The keys that you can use for each log level are:
+- fg (string): the foreground color
+- bg (string): the background color
+- style (string): any number of styles separated by a "+"</p>
+<p>The available colors are "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white".
+The available styles are "none", "bold", "faint", "italic", "underline", "blink", "blink2", "negative", "concealed", "crossed".</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>inner_formatter</code></strong></dt>
+<dd>The formatter to use for the log messages.</dd>
+<dt><strong><code>color_configs</code></strong></dt>
+<dd>A mapping from log levels to keyword arguments for the ansicolors library's color function.</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>logging.Formatter</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="rainbowlog.formatter.Formatter.format"><code class="name flex">
+<span>def <span class="ident">format</span></span>(<span>self, record: logging.LogRecord) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Format the specified record as text.</p>
+<p>The record's attribute dictionary is used as the operand to a
+string formatting operation which yields the returned string.
+Before formatting the dictionary, a couple of preparatory steps
+are carried out. The message attribute of the record is computed
+using LogRecord.getMessage(). If the formatting string uses the
+time (as determined by a call to usesTime(), formatTime() is
+called to format the event time. If there is exception information,
+it is formatted using formatException() and appended to the message.</p></div>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul>
-<li><a href="#rainbow-log">Rainbow Log</a><ul>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#usage">Usage</a></li>
-<li><a href="#docs">Docs</a></li>
-</ul>
-</li>
-</ul>
+<ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="rainbowlog.formatter" href="formatter.html">rainbowlog.formatter</a></code></li>
+<li><code><a title="rainbowlog" href="index.html">rainbowlog</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="rainbowlog.formatter.Formatter" href="#rainbowlog.formatter.Formatter">Formatter</a></code></h4>
+<ul class="">
+<li><code><a title="rainbowlog.formatter.Formatter.format" href="#rainbowlog.formatter.Formatter.format">format</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
