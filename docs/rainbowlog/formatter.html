@@ -34,7 +34,7 @@
 <dl>
 <dt id="rainbowlog.formatter.Formatter"><code class="flex name class">
 <span>class <span class="ident">Formatter</span></span>
-<span>(</span><span>inner_formatter: logging.Formatter, color_configs: Mapping[int, Mapping[str, Any]] = {10: {'fg': 'grey', 'style': 'bold+italic'}, 20: {'fg': 'green', 'style': 'bold+italic'}, 30: {'fg': 'yellow', 'style': 'bold+italic'}, 40: {'fg': 'red', 'style': 'bold+italic'}, 50: {'fg': 'red', 'style': 'bold+italic+underline'}})</span>
+<span>(</span><span>inner_formatter: logging.Formatter, color_configs: Mapping[int, Mapping[str, Any]] = {10: {'fg': 'grey', 'style': 'bold+italic'}, 20: {'fg': 'green', 'style': 'bold+italic'}, 30: {'fg': 'yellow', 'style': 'bold+italic'}, 40: {'fg': 'red', 'style': 'bold+italic'}, 50: {'fg': 'red', 'style': 'bold+italic+underline'}}, exception_config: Mapping[str, Any] = {'fg': 'red', 'style': 'bold+italic+underline'}, stack_config: Mapping[str, Any] = {'fg': 'red', 'style': 'bold+italic'})</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This log formatter wraps a given formatter and adds color to the output.</p>
@@ -51,6 +51,10 @@ The available styles are "none", "bold", "faint", "italic", "underline", "blink"
 <dd>The formatter to use for the log messages.</dd>
 <dt><strong><code>color_configs</code></strong></dt>
 <dd>A mapping from log levels to keyword arguments for the ansicolors library's color function.</dd>
+<dt><strong><code>exception_config</code></strong></dt>
+<dd>The keyword arguments to pass to color for formatting exceptions.</dd>
+<dt><strong><code>stack_config</code></strong></dt>
+<dd>The keyword arguments to pass to color for formatting stack traces.</dd>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -71,6 +75,25 @@ using LogRecord.getMessage(). If the formatting string uses the
 time (as determined by a call to usesTime(), formatTime() is
 called to format the event time. If there is exception information,
 it is formatted using formatException() and appended to the message.</p></div>
+</dd>
+<dt id="rainbowlog.formatter.Formatter.formatException"><code class="name flex">
+<span>def <span class="ident">formatException</span></span>(<span>exc_info)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Format and return the specified exception information as a string.</p>
+<p>This default implementation just uses
+traceback.print_exception()</p></div>
+</dd>
+<dt id="rainbowlog.formatter.Formatter.formatStack"><code class="name flex">
+<span>def <span class="ident">formatStack</span></span>(<span>stack_info)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method is provided as an extension point for specialized
+formatting of stack information.</p>
+<p>The input data is a string as returned from a call to
+:func:<code>traceback.print_stack</code>, but with the last trailing newline
+removed.</p>
+<p>The base implementation just returns the value passed in.</p></div>
 </dd>
 </dl>
 </dd>
@@ -94,6 +117,8 @@ it is formatted using formatException() and appended to the message.</p></div>
 <h4><code><a title="rainbowlog.formatter.Formatter" href="#rainbowlog.formatter.Formatter">Formatter</a></code></h4>
 <ul class="">
 <li><code><a title="rainbowlog.formatter.Formatter.format" href="#rainbowlog.formatter.Formatter.format">format</a></code></li>
+<li><code><a title="rainbowlog.formatter.Formatter.formatException" href="#rainbowlog.formatter.Formatter.formatException">formatException</a></code></li>
+<li><code><a title="rainbowlog.formatter.Formatter.formatStack" href="#rainbowlog.formatter.Formatter.formatStack">formatStack</a></code></li>
 </ul>
 </li>
 </ul>
