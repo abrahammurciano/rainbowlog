@@ -27,6 +27,8 @@
 <h2 id="installation">Installation</h2>
 <pre><code>pip install rainbowlog
 </code></pre>
+<h2 id="docs">Docs</h2>
+<p>You can find the documentation <a href="https://abrahammurciano.github.io/rainbowlog/rainbowlog">here</a></p>
 <h2 id="usage">Usage</h2>
 <p>Here's a basic example of a script that logs colorfully to the console, but regularly to a file.</p>
 <pre><code class="language-python">import logging
@@ -38,10 +40,10 @@ logger = logging.getLogger(__name__)
 stream_handler = logging.StreamHandler()
 
 # This one will write to a file
-file_handler = logging.FileHandler('output.log')
+file_handler = logging.FileHandler(&quot;output.log&quot;)
 
 # Here we decide how we want the logs to look like
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter(&quot;%(asctime)s - %(name)s - %(levelname)s - %(message)s&quot;)
 
 # We want the stream handler to be colorful
 stream_handler.setFormatter(rainbowlog.Formatter(formatter))
@@ -53,19 +55,42 @@ file_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 logger.addHandler(file_handler)
 
-if __name__ == '__main__':
-    logger.debug('This is a debug message')
-    logger.info('This is an info message')
-    logger.warning('This is a warning message')
-    logger.error('This is an error message')
-    logger.critical('This is a critical message')
+if __name__ == &quot;__main__&quot;:
+    logger.debug(&quot;This is a debug message&quot;)
+    logger.info(&quot;This is an info message&quot;)
+    logger.warning(&quot;This is a warning message&quot;)
+    logger.error(&quot;This is an error message&quot;)
+    logger.critical(&quot;This is a critical message&quot;)
 </code></pre>
-<h2 id="docs">Docs</h2>
-<p>You can find the documentation <a href="https://abrahammurciano.github.io/rainbowlog/rainbowlog">here</a></p>
+<p>If you want to change the format of the logs for each log level, you can construct the <code>rainbowlog.Formatter</code> object like this:</p>
+<pre><code class="language-py">import logging
+from rainbowlog import Formatter, Format, Color, Style
+
+formatter = logging.Formatter(&quot;%(asctime)s - %(name)s - %(levelname)s - %(message)s&quot;)
+color_formatter = Formatter(
+    formatter,
+    color_configs={
+        logging.DEBUG: Format(Color.BLUE, style=Style.FAINT),
+        logging.INFO: Format(Color.GREEN),
+        logging.WARNING: Format(Color.YELLOW, style=Style.ITALIC),
+        logging.ERROR: Format(Color.RED, Color.WHITE, Style.BOLD),
+        logging.CRITICAL: Format(Color.RED, Color.YELLOW, (Style.BOLD, Style.UNDERLINE)),
+    }
+    exception_config=Format(Color.RED, Color.WHITE, Style.BOLD),
+    stack_config=Format(Color.RED, Color.WHITE, Style.BOLD),
+)
+</code></pre>
+<blockquote>
+<p>NOTE: You can pass instead of a Format object, a dict of keyword arguments which ansicolors library's <code>color</code> function accepts. See the <a href="https://pypi.org/project/ansicolors/">ansicolors documentation</a>. This will usually not be necessary.</p>
+</blockquote>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
+<dt><code class="name"><a title="rainbowlog.ansi" href="ansi.html">rainbowlog.ansi</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="rainbowlog.formatter" href="formatter.html">rainbowlog.formatter</a></code></dt>
 <dd>
 <div class="desc"></div>
@@ -85,8 +110,8 @@ if __name__ == '__main__':
 <ul>
 <li><a href="#rainbow-log">Rainbow Log</a><ul>
 <li><a href="#installation">Installation</a></li>
-<li><a href="#usage">Usage</a></li>
 <li><a href="#docs">Docs</a></li>
+<li><a href="#usage">Usage</a></li>
 </ul>
 </li>
 </ul>
@@ -94,6 +119,7 @@ if __name__ == '__main__':
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
+<li><code><a title="rainbowlog.ansi" href="ansi.html">rainbowlog.ansi</a></code></li>
 <li><code><a title="rainbowlog.formatter" href="formatter.html">rainbowlog.formatter</a></code></li>
 </ul>
 </li>
