@@ -7,26 +7,32 @@ from rainbowlog import Formatter, Format, Style, Color
 
 @pytest.fixture(
     params=[
-        {
-            logging.DEBUG: {"fg": "grey", "style": "bold"},
-            logging.INFO: {"fg": "green", "style": "bold+italic+negative"},
-            logging.WARNING: {"fg": "yellow", "style": "underline+italic"},
-            logging.ERROR: {"fg": "red", "style": "italic+blink"},
-            logging.CRITICAL: {
-                "fg": "red",
-                "bg": "white",
-                "style": "bold+italic+underline",
+        pytest.param(
+            {
+                logging.DEBUG: {"fg": "grey", "style": "bold"},
+                logging.INFO: {"fg": "green", "style": "bold+italic+negative"},
+                logging.WARNING: {"fg": "yellow", "style": "underline+italic"},
+                logging.ERROR: {"fg": "red", "style": "italic+blink"},
+                logging.CRITICAL: {
+                    "fg": "red",
+                    "bg": "white",
+                    "style": "bold+italic+underline",
+                },
             },
-        },
-        {
-            logging.DEBUG: Format(Color.BLUE, style=Style.FAINT),
-            logging.INFO: Format(Color.GREEN),
-            logging.WARNING: Format(Color.YELLOW, style=Style.ITALIC),
-            logging.ERROR: Format(Color.RED, Color.WHITE, Style.BOLD),
-            logging.CRITICAL: Format(
-                Color.RED, Color.YELLOW, (Style.BOLD, Style.UNDERLINE)
-            ),
-        },
+            id="dict",
+        ),
+        pytest.param(
+            {
+                logging.DEBUG: Format(Color.BLUE, style=Style.FAINT),
+                logging.INFO: Format(Color.GREEN),
+                logging.WARNING: Format(Color.YELLOW, style=Style.ITALIC),
+                logging.ERROR: Format(Color.RED, Color.WHITE, Style.BOLD),
+                logging.CRITICAL: Format(
+                    Color.RED, Color.YELLOW, (Style.BOLD, Style.UNDERLINE)
+                ),
+            },
+            id="Format",
+        ),
     ]
 )
 def color_configs(request) -> Mapping[str, Any]:
@@ -35,11 +41,11 @@ def color_configs(request) -> Mapping[str, Any]:
 
 @pytest.fixture(
     params=[
-        logging.DEBUG,
-        logging.INFO,
-        logging.WARNING,
-        logging.ERROR,
-        logging.CRITICAL,
+        pytest.param(logging.DEBUG, id="debug"),
+        pytest.param(logging.INFO, id="info"),
+        pytest.param(logging.WARNING, id="warning"),
+        pytest.param(logging.ERROR, id="error"),
+        pytest.param(logging.CRITICAL, id="critical"),
     ]
 )
 def level(request) -> int:
