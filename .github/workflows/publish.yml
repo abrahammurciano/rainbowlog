@@ -2,7 +2,6 @@
 
 name: Publish
 
-# Controls when the workflow will run
 on:
   release:
     types:
@@ -11,16 +10,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  publish:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v2
         with:
@@ -31,5 +24,15 @@ jobs:
         run: poetry build
       - name: Check Build
         run: pip install dist/*.whl
-      - name: Publish Package
+      - name: Set POETRY_VERSION environment variable
+        run: echo "POETRY_VERSION=$(poetry version -s)" >> $GITHUB_ENV
+      - name: Build and Publish Conda Package
+        uses: amauryval/publish_conda_package_action@2.0.3
+        with:
+          CondaDir: 'conda-recipe'
+          Channels: 'conda-forge'
+          Platforms: 'noarch'
+          CondaUsername: ${{ secrets.ANACONDA_USERNAME }}
+          CondaPassword: ${{ secrets.ANACONDA_PASSWORD }}
+      - name: Publish Pip Package
         run: poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}
