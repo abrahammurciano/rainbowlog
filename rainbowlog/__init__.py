@@ -21,4 +21,3 @@ except importlib_metadata.PackageNotFoundError:
     )
 
 from .formatter import Formatter
-from .ansi import Format, Color, Style
