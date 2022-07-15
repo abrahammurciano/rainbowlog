@@ -34,22 +34,23 @@
 <dl>
 <dt id="rainbowlog.formatter.Formatter"><code class="flex name class">
 <span>class <span class="ident">Formatter</span></span>
-<span>(</span><span>inner_formatter: logging.Formatter, color_configs: Mapping[int, Mapping[str, Any]] = {10: &lt;rainbowlog.ansi.Format object&gt;, 20: &lt;rainbowlog.ansi.Format object&gt;, 30: &lt;rainbowlog.ansi.Format object&gt;, 40: &lt;rainbowlog.ansi.Format object&gt;, 50: &lt;rainbowlog.ansi.Format object&gt;}, exception_config: Mapping[str, Any] = &lt;rainbowlog.ansi.Format object&gt;, stack_config: Mapping[str, Any] = &lt;rainbowlog.ansi.Format object&gt;)</span>
+<span>(</span><span>inner_formatter: logging.Formatter, log_styles: Mapping[int, Callable[[str], str]] = {10: &lt;constyle.Style object&gt;, 20: &lt;constyle.Style object&gt;, 30: &lt;constyle.Style object&gt;, 40: &lt;constyle.Style object&gt;, 50: &lt;constyle.Style object&gt;}, exception_style: Callable[[str], str] = None, stack_style: Callable[[str], str] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This log formatter wraps a given formatter and adds color to the output.</p>
-<p>If you want to use different colors from the default ones, you can pass a mapping to the color_configs argument in the constructor. This mapping should be from log levels (ints) to Format objects.</p>
-<p>Note: Instead of Format objects, you can pass any mapping acceptable as keyword arguments for the ansicolors library's color function. You can find more information on this library here: <a href="https://github.com/jonathaneunice/colors.">https://github.com/jonathaneunice/colors.</a></p>
+<p>If you want to use different colors from the default ones, you can pass a mapping to the log_styles argument in the constructor. This mapping should be from log levels (ints) to style callable.</p>
+<p>A style callcable is a one which takes a string and returns a string. It should return the given string with the desired ANSI codes surrounding it. For example <code>[constyle.Style](https://abrahammurciano.github.io/python-constyle/constyle/#constyle.Style)</code> and <code>ansicolors.red</code>, <code>ansicolors.green</code>, etc. objects are good candidates.</p>
+<p>You can also create your own easily by using <code>functools.partial</code> or lambdas with any other library you want, or using functions which wrap a string in ANSI escape codes directly.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>inner_formatter</code></strong></dt>
 <dd>The formatter to use for the log messages.</dd>
-<dt><strong><code>color_configs</code></strong></dt>
-<dd>A mapping from log levels to Format objects.</dd>
-<dt><strong><code>exception_config</code></strong></dt>
-<dd>The Format for exceptions.</dd>
-<dt><strong><code>stack_config</code></strong></dt>
-<dd>The Format for stack traces.</dd>
+<dt><strong><code>log_styles</code></strong></dt>
+<dd>A mapping from log levels to a style callable.</dd>
+<dt><strong><code>exception_style</code></strong></dt>
+<dd>The style callable for exceptions. Defaults to <code>log_styles[logging.CRITICAL]</code>.</dd>
+<dt><strong><code>stack_style</code></strong></dt>
+<dd>The style callable for stack traces. Defaults to <code>log_styles[logging.ERROR]</code>.</dd>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
