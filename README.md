@@ -53,25 +53,29 @@ if __name__ == "__main__":
 	logger.critical("This is a critical message")
 ```
 
-If you want to change the format of the logs for each log level, you can construct the `rainbowlog.Formatter` object like this:
+If you want to change the format of the logs for each log level, you can use any callable that takes a string and returns the same string with ANSI codes surrounding it. There are many libraries you can use to provide such callables.
 
 ```py
 import logging
-from rainbowlog import Formatter, Format, Color, Style
+from rainbowlog import Formatter
+
+# Here are some libraries you can use to get a style callable without dealing with ANSI codes
+from constyle import Style, Attributes as Attrs
+import termcolor
+from functools import partial
+
 
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 color_formatter = Formatter(
 	formatter,
-	color_configs={
-		logging.DEBUG: Format(Color.BLUE, style=Style.FAINT),
-		logging.INFO: Format(Color.GREEN),
-		logging.WARNING: Format(Color.YELLOW, style=Style.ITALIC),
-		logging.ERROR: Format(Color.RED, Color.WHITE, Style.BOLD),
-		logging.CRITICAL: Format(Color.RED, Color.YELLOW, (Style.BOLD, Style.UNDERLINE)),
+	log_styles={
+		logging.DEBUG: Style(Attrs.BLUE, Attrs.FAINT), # An example using constyle
+		logging.INFO: lambda s: f"\033[32m{s}\033[0m", # An example using lambdas
+		logging.WARNING: termcolor.red, # An example using termcolor's predifined functions
+		logging.ERROR: partial(termcolor.colored, color="red", on_color="on_white", attrs=["bold"]), # An example using functools.partial
+		logging.CRITICAL: Style(Attrs.RED, Attrs.ON_YELLOW, Attrs.BOLD, Attrs.UNDERLINE),
 	}
-	exception_config=Format(Color.RED, Color.WHITE, Style.BOLD),
-	stack_config=Format(Color.RED, Color.WHITE, Style.BOLD),
+	exception_style=Style(Attrs.RED, Attrs.ON_WHITE, Attrs.BOLD),
+	stack_style=Style(Attrs.RED, Attrs.ON_WHITE, Attrs.BOLD),
 )
 ```
-
-> NOTE: You can pass instead of a Format object, a dict of keyword arguments which ansicolors library's `color` function accepts. See the [ansicolors documentation](https://pypi.org/project/ansicolors/). This will usually not be necessary.
