@@ -1,14 +1,14 @@
 import logging
 from typing import Callable, Mapping
-from constyle import Style, Attributes
+from constyle import Attributes
 
 
 default_styles = {
-    logging.DEBUG: Style(Attributes.DIM),
-    logging.INFO: Style(Attributes.GREEN),
-    logging.WARNING: Style(Attributes.YELLOW),
-    logging.ERROR: Style(Attributes.RED),
-    logging.CRITICAL: Style(Attributes.RED, Attributes.BOLD, Attributes.UNDERLINE),
+    logging.DEBUG: Attributes.DIM,
+    logging.INFO: Attributes.GREEN,
+    logging.WARNING: Attributes.YELLOW,
+    logging.ERROR: Attributes.RED,
+    logging.CRITICAL: Attributes.RED + Attributes.BOLD + Attributes.UNDERLINE,
 }
 
 

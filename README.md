@@ -73,9 +73,9 @@ color_formatter = Formatter(
 		logging.INFO: lambda s: f"\033[32m{s}\033[0m", # An example using lambdas
 		logging.WARNING: termcolor.red, # An example using termcolor's predifined functions
 		logging.ERROR: partial(termcolor.colored, color="red", on_color="on_white", attrs=["bold"]), # An example using functools.partial
-		logging.CRITICAL: Style(Attrs.RED, Attrs.ON_YELLOW, Attrs.BOLD, Attrs.UNDERLINE),
+		logging.CRITICAL: Attrs.RED + Attrs.ON_YELLOW + Attrs.BOLD + Attrs.UNDERLINE, # An example using constyle's added attributes
 	}
 	exception_style=Style(Attrs.RED, Attrs.ON_WHITE, Attrs.BOLD),
-	stack_style=Style(Attrs.RED, Attrs.ON_WHITE, Attrs.BOLD),
+	stack_style=Attrs.RED, # An example using a single constyle attribute
 )
 ```
