@@ -1,42 +1,21 @@
 import pytest
 import logging
-from colors import color
-from typing import Any, Mapping
-from rainbowlog import Formatter, Format, Style, Color
+from constyle import Attributes as Attrs
+from typing import Callable, Mapping
+from rainbowlog import Formatter
 
 
-@pytest.fixture(
-    params=[
-        pytest.param(
-            {
-                logging.DEBUG: {"fg": "grey", "style": "bold"},
-                logging.INFO: {"fg": "green", "style": "bold+italic+negative"},
-                logging.WARNING: {"fg": "yellow", "style": "underline+italic"},
-                logging.ERROR: {"fg": "red", "style": "italic+blink"},
-                logging.CRITICAL: {
-                    "fg": "red",
-                    "bg": "white",
-                    "style": "bold+italic+underline",
-                },
-            },
-            id="dict",
+@pytest.fixture
+def log_styles() -> Mapping[int, Callable[[str], str]]:
+    return {
+        logging.DEBUG: Attrs.GREY + Attrs.BOLD,
+        logging.INFO: Attrs.GREEN + Attrs.BOLD + Attrs.ITALIC + Attrs.INVERT,
+        logging.WARNING: Attrs.YELLOW + Attrs.UNDERLINE + Attrs.ITALIC,
+        logging.ERROR: Attrs.RED + Attrs.ITALIC + Attrs.SLOW_BLINK,
+        logging.CRITICAL: (
+            Attrs.RED + Attrs.ON_WHITE + Attrs.BOLD + Attrs.ITALIC + Attrs.UNDERLINE
         ),
-        pytest.param(
-            {
-                logging.DEBUG: Format(Color.BLUE, style=Style.FAINT),
-                logging.INFO: Format(Color.GREEN),
-                logging.WARNING: Format(Color.YELLOW, style=Style.ITALIC),
-                logging.ERROR: Format(Color.RED, Color.WHITE, Style.BOLD),
-                logging.CRITICAL: Format(
-                    Color.RED, Color.YELLOW, (Style.BOLD, Style.UNDERLINE)
-                ),
-            },
-            id="Format",
-        ),
-    ]
-)
-def color_configs(request) -> Mapping[str, Any]:
-    return request.param
+    }
 
 
 @pytest.fixture(
@@ -53,15 +32,15 @@ def level(request) -> int:
 
 
 @pytest.fixture
-def color_config(
-    color_configs: Mapping[int, Mapping[str, Any]], level: int
-) -> Mapping[str, Any]:
-    return color_configs[level]
+def log_style(
+    log_styles: Mapping[int, Callable[[str], str]], level: int
+) -> Callable[[str], str]:
+    return log_styles[level]
 
 
 @pytest.fixture
-def formatter(color_configs: Mapping[int, Mapping[str, Any]]) -> Formatter:
-    return Formatter(logging.Formatter("%(message)s"), color_configs=color_configs)
+def formatter(log_styles: Mapping[int, Callable[[str], str]]) -> Formatter:
+    return Formatter(logging.Formatter("%(message)s"), log_styles=log_styles)
 
 
 @pytest.fixture
@@ -78,8 +57,8 @@ def record(level: int, message: str) -> logging.LogRecord:
 
 def test_format(
     formatter: Formatter,
-    color_config: Mapping[str, Any],
+    log_style: Callable[[str], str],
     record: logging.LogRecord,
     message: str,
 ) -> None:
-    assert formatter.format(record) == color(message, **color_config)
+    assert formatter.format(record) == log_style(message)

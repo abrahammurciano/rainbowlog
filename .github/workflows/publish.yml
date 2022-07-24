@@ -30,7 +30,7 @@ jobs:
         uses: amauryval/publish_conda_package_action@2.0.3
         with:
           CondaDir: 'conda-recipe'
-          Channels: 'conda-forge'
+          Channels: 'conda-forge abrahammurciano'
           Platforms: 'noarch'
           CondaUsername: ${{ secrets.ANACONDA_USERNAME }}
           CondaPassword: ${{ secrets.ANACONDA_PASSWORD }}

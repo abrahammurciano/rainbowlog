@@ -25,7 +25,10 @@
 <h1 id="rainbow-log">Rainbow Log</h1>
 <p>Format your python logs with colours based on the log levels.</p>
 <h2 id="installation">Installation</h2>
-<pre><code>pip install rainbowlog
+<p>You can instll the package with pip or conda.</p>
+<pre><code class="language-sh">$ pip install rainbowlog
+</code></pre>
+<pre><code class="language-sh">$ conda install rainbowlog -c abrahammurciano
 </code></pre>
 <h2 id="docs">Docs</h2>
 <p>You can find the documentation <a href="https://abrahammurciano.github.io/rainbowlog/rainbowlog">here</a></p>
@@ -62,35 +65,34 @@ if __name__ == &quot;__main__&quot;:
     logger.error(&quot;This is an error message&quot;)
     logger.critical(&quot;This is a critical message&quot;)
 </code></pre>
-<p>If you want to change the format of the logs for each log level, you can construct the <code>rainbowlog.Formatter</code> object like this:</p>
+<p>If you want to change the format of the logs for each log level, you can use any callable that takes a string and returns the same string with ANSI codes surrounding it. There are many libraries you can use to provide such callables.</p>
 <pre><code class="language-py">import logging
-from rainbowlog import Formatter, Format, Color, Style
+from rainbowlog import Formatter
+
+# Here are some libraries you can use to get a style callable without dealing with ANSI codes
+from constyle import Style, Attributes as Attrs
+import termcolor
+from functools import partial
+
 
 formatter = logging.Formatter(&quot;%(asctime)s - %(name)s - %(levelname)s - %(message)s&quot;)
 color_formatter = Formatter(
     formatter,
-    color_configs={
-        logging.DEBUG: Format(Color.BLUE, style=Style.FAINT),
-        logging.INFO: Format(Color.GREEN),
-        logging.WARNING: Format(Color.YELLOW, style=Style.ITALIC),
-        logging.ERROR: Format(Color.RED, Color.WHITE, Style.BOLD),
-        logging.CRITICAL: Format(Color.RED, Color.YELLOW, (Style.BOLD, Style.UNDERLINE)),
+    log_styles={
+        logging.DEBUG: Style(Attrs.BLUE, Attrs.FAINT), # An example using constyle
+        logging.INFO: lambda s: f&quot;\033[32m{s}\033[0m&quot;, # An example using lambdas
+        logging.WARNING: termcolor.red, # An example using termcolor's predifined functions
+        logging.ERROR: partial(termcolor.colored, color=&quot;red&quot;, on_color=&quot;on_white&quot;, attrs=[&quot;bold&quot;]), # An example using functools.partial
+        logging.CRITICAL: Attrs.RED + Attrs.ON_YELLOW + Attrs.BOLD + Attrs.UNDERLINE, # An example using constyle's added attributes
     }
-    exception_config=Format(Color.RED, Color.WHITE, Style.BOLD),
-    stack_config=Format(Color.RED, Color.WHITE, Style.BOLD),
+    exception_style=Style(Attrs.RED, Attrs.ON_WHITE, Attrs.BOLD),
+    stack_style=Attrs.RED, # An example using a single constyle attribute
 )
 </code></pre>
-<blockquote>
-<p>NOTE: You can pass instead of a Format object, a dict of keyword arguments which ansicolors library's <code>color</code> function accepts. See the <a href="https://pypi.org/project/ansicolors/">ansicolors documentation</a>. This will usually not be necessary.</p>
-</blockquote>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
-<dt><code class="name"><a title="rainbowlog.ansi" href="ansi.html">rainbowlog.ansi</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt><code class="name"><a title="rainbowlog.formatter" href="formatter.html">rainbowlog.formatter</a></code></dt>
 <dd>
 <div class="desc"></div>
@@ -119,7 +121,6 @@ color_formatter = Formatter(
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="rainbowlog.ansi" href="ansi.html">rainbowlog.ansi</a></code></li>
 <li><code><a title="rainbowlog.formatter" href="formatter.html">rainbowlog.formatter</a></code></li>
 </ul>
 </li>
