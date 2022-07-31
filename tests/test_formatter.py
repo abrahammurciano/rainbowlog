@@ -1,6 +1,6 @@
 import pytest
 import logging
-from constyle import Style, Attributes as Attrs
+from constyle import Attributes as Attrs
 from typing import Callable, Mapping
 from rainbowlog import Formatter
 
@@ -8,12 +8,12 @@ from rainbowlog import Formatter
 @pytest.fixture
 def log_styles() -> Mapping[int, Callable[[str], str]]:
     return {
-        logging.DEBUG: Style(Attrs.GREY, Attrs.BOLD),
-        logging.INFO: Style(Attrs.GREEN, Attrs.BOLD, Attrs.ITALIC, Attrs.INVERT),
-        logging.WARNING: Style(Attrs.YELLOW, Attrs.UNDERLINE, Attrs.ITALIC),
-        logging.ERROR: Style(Attrs.RED, Attrs.ITALIC, Attrs.SLOW_BLINK),
-        logging.CRITICAL: Style(
-            Attrs.RED, Attrs.ON_WHITE, Attrs.BOLD, Attrs.ITALIC, Attrs.UNDERLINE
+        logging.DEBUG: Attrs.GREY + Attrs.BOLD,
+        logging.INFO: Attrs.GREEN + Attrs.BOLD + Attrs.ITALIC + Attrs.INVERT,
+        logging.WARNING: Attrs.YELLOW + Attrs.UNDERLINE + Attrs.ITALIC,
+        logging.ERROR: Attrs.RED + Attrs.ITALIC + Attrs.SLOW_BLINK,
+        logging.CRITICAL: (
+            Attrs.RED + Attrs.ON_WHITE + Attrs.BOLD + Attrs.ITALIC + Attrs.UNDERLINE
         ),
     }
 

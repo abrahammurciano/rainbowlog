@@ -13,7 +13,7 @@ requirements:
 
   run:
     - "importlib-metadata >=4.11"
-    - "constyle >=0.1"
+    - "constyle >=1.0"
 
 build:
   script: "{{ PYTHON }} -m pip install --no-deps --ignore-installed ."

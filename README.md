@@ -75,7 +75,7 @@ color_formatter = Formatter(
 		logging.ERROR: partial(termcolor.colored, color="red", on_color="on_white", attrs=["bold"]), # An example using functools.partial
 		logging.CRITICAL: Attrs.RED + Attrs.ON_YELLOW + Attrs.BOLD + Attrs.UNDERLINE, # An example using constyle's added attributes
 	}
-	exception_style=Style(Attrs.RED, Attrs.ON_WHITE, Attrs.BOLD),
+	exception_style=lambda s: f"{Attrs.RED + Attrs.ON_WHITE + Attrs.BOLD}{s}{Attrs.RESET}" # An example using lambdas and constyle,
 	stack_style=Attrs.RED, # An example using a single constyle attribute
 )
 ```
