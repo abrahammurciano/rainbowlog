@@ -91,13 +91,6 @@ color_formatter = Formatter(
 </code></pre>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
-<dl>
-<dt><code class="name"><a title="rainbowlog.formatter" href="formatter.html">rainbowlog.formatter</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
 </section>
 <section>
 </section>
@@ -108,7 +101,7 @@ color_formatter = Formatter(
 <dl>
 <dt id="rainbowlog.Formatter"><code class="flex name class">
 <span>class <span class="ident">Formatter</span></span>
-<span>(</span><span>inner_formatter: logging.Formatter, log_styles: Mapping[int, Callable[[str], str]] = {10: FAINT, 20: GREEN, 30: YELLOW, 40: RED, 50: Style(31, 1, 4)}, exception_style: Callable[[str], str] = None, stack_style: Callable[[str], str] = None)</span>
+<span>(</span><span>inner_formatter: logging.Formatter = &lt;logging.Formatter object&gt;, log_styles: Mapping[int, Callable[[str], str]] = {10: FAINT, 20: GREEN, 30: YELLOW, 40: RED, 50: Style(31, 1, 4)}, exception_style: Callable[[str], str] = None, stack_style: Callable[[str], str] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This log formatter wraps a given formatter and adds color to the output.</p>
@@ -118,9 +111,9 @@ color_formatter = Formatter(
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>inner_formatter</code></strong></dt>
-<dd>The formatter to use for the log messages.</dd>
+<dd>The formatter to use for the log messages. Defaults to a formatter that shows just the log messages.</dd>
 <dt><strong><code>log_styles</code></strong></dt>
-<dd>A mapping from log levels to a style callable.</dd>
+<dd>A mapping from log levels to a style callable. Defaults to sensible colours.</dd>
 <dt><strong><code>exception_style</code></strong></dt>
 <dd>The style callable for exceptions. Defaults to <code>log_styles[logging.CRITICAL]</code>.</dd>
 <dt><strong><code>stack_style</code></strong></dt>
@@ -183,11 +176,6 @@ removed.</p>
 </ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
-<ul>
-<li><code><a title="rainbowlog.formatter" href="formatter.html">rainbowlog.formatter</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
