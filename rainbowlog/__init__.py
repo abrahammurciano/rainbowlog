@@ -20,6 +20,6 @@ except importlib_metadata.PackageNotFoundError:
         + "-dev"
     )
 
-from .formatter import Formatter
+from ._formatter import Formatter
 
 __all__ = ("Formatter",)
