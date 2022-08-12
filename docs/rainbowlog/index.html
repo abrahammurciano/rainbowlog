@@ -104,6 +104,70 @@ color_formatter = Formatter(
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="rainbowlog.Formatter"><code class="flex name class">
+<span>class <span class="ident">Formatter</span></span>
+<span>(</span><span>inner_formatter: logging.Formatter, log_styles: Mapping[int, Callable[[str], str]] = {10: FAINT, 20: GREEN, 30: YELLOW, 40: RED, 50: Style(31, 1, 4)}, exception_style: Callable[[str], str] = None, stack_style: Callable[[str], str] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This log formatter wraps a given formatter and adds color to the output.</p>
+<p>If you want to use different colors from the default ones, you can pass a mapping to the log_styles argument in the constructor. This mapping should be from log levels (ints) to style callable.</p>
+<p>A style callcable is a one which takes a string and returns a string. It should return the given string with the desired ANSI codes surrounding it. For example <code>[constyle.Style](https://abrahammurciano.github.io/python-constyle/constyle/#constyle.Style)</code> and <code>ansicolors.red</code>, <code>ansicolors.green</code>, etc. objects are good candidates.</p>
+<p>You can also create your own easily by using <code>functools.partial</code> or lambdas with any other library you want, or using functions which wrap a string in ANSI escape codes directly.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>inner_formatter</code></strong></dt>
+<dd>The formatter to use for the log messages.</dd>
+<dt><strong><code>log_styles</code></strong></dt>
+<dd>A mapping from log levels to a style callable.</dd>
+<dt><strong><code>exception_style</code></strong></dt>
+<dd>The style callable for exceptions. Defaults to <code>log_styles[logging.CRITICAL]</code>.</dd>
+<dt><strong><code>stack_style</code></strong></dt>
+<dd>The style callable for stack traces. Defaults to <code>log_styles[logging.ERROR]</code>.</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>logging.Formatter</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="rainbowlog.Formatter.format"><code class="name flex">
+<span>def <span class="ident">format</span></span>(<span>self, record: logging.LogRecord) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Format the specified record as text.</p>
+<p>The record's attribute dictionary is used as the operand to a
+string formatting operation which yields the returned string.
+Before formatting the dictionary, a couple of preparatory steps
+are carried out. The message attribute of the record is computed
+using LogRecord.getMessage(). If the formatting string uses the
+time (as determined by a call to usesTime(), formatTime() is
+called to format the event time. If there is exception information,
+it is formatted using formatException() and appended to the message.</p></div>
+</dd>
+<dt id="rainbowlog.Formatter.formatException"><code class="name flex">
+<span>def <span class="ident">formatException</span></span>(<span>self, exc_info)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Format and return the specified exception information as a string.</p>
+<p>This default implementation just uses
+traceback.print_exception()</p></div>
+</dd>
+<dt id="rainbowlog.Formatter.formatStack"><code class="name flex">
+<span>def <span class="ident">formatStack</span></span>(<span>self, stack_info)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method is provided as an extension point for specialized
+formatting of stack information.</p>
+<p>The input data is a string as returned from a call to
+:func:<code>traceback.print_stack</code>, but with the last trailing newline
+removed.</p>
+<p>The base implementation just returns the value passed in.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -122,6 +186,18 @@ color_formatter = Formatter(
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
 <li><code><a title="rainbowlog.formatter" href="formatter.html">rainbowlog.formatter</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="rainbowlog.Formatter" href="#rainbowlog.Formatter">Formatter</a></code></h4>
+<ul class="">
+<li><code><a title="rainbowlog.Formatter.format" href="#rainbowlog.Formatter.format">format</a></code></li>
+<li><code><a title="rainbowlog.Formatter.formatException" href="#rainbowlog.Formatter.formatException">formatException</a></code></li>
+<li><code><a title="rainbowlog.Formatter.formatStack" href="#rainbowlog.Formatter.formatStack">formatStack</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
