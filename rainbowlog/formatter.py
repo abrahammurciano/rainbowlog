@@ -24,15 +24,15 @@ class Formatter(logging.Formatter):
 
     def __init__(
         self,
-        inner_formatter: logging.Formatter,
+        inner_formatter: logging.Formatter = logging.Formatter(),
         log_styles: Mapping[int, Callable[[str], str]] = default_styles,
         exception_style: Callable[[str], str] = None,
         stack_style: Callable[[str], str] = None,
     ):
         """
         Args:
-            inner_formatter: The formatter to use for the log messages.
-            log_styles: A mapping from log levels to a style callable.
+            inner_formatter: The formatter to use for the log messages. Defaults to a formatter that shows just the log messages.
+            log_styles: A mapping from log levels to a style callable. Defaults to sensible colours.
             exception_style: The style callable for exceptions. Defaults to `log_styles[logging.CRITICAL]`.
             stack_style: The style callable for stack traces. Defaults to `log_styles[logging.ERROR]`.
         """
