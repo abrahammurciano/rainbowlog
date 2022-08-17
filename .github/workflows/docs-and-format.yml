@@ -1,0 +1,56 @@
+name: Docs & Format
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  docs_and_format:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Set up environment
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Get Poetry
+        uses: abatilo/actions-poetry@v2.1.3
+      - name: Install Dependencies
+        run: poetry install
+      - name: Git Config
+        run: |
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@users.noreply.github.com'
+
+      # Generate documentation
+      - name: Generate Documentation
+        run: poetry run pdoc3 rainbowlog -f --html -o docs --config show_source_code=False
+      - name: Commit Documentation
+        run: |
+          git add docs
+          git commit -m 'Update documentation' || true
+
+      # Format the code
+      - name: Format Code
+        run: poetry run black .
+      - name: Commit Formatted Code
+        run: |
+          git add .
+          git commit -m 'Format code' || true
+
+      # Push changes if necessary
+      - name: Check for modified files
+        id: git-check
+        run: echo ::set-output name=commits::$(git log @{upstream}.. --oneline | wc -l)
+      - name: Push changes
+        if: steps.git-check.outputs.commits != '0'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GH_TOKEN }}
+        run: |
+          git push
+          gh pr close ${{ github.event.number }}
+          gh pr reopen ${{ github.event.number }}
