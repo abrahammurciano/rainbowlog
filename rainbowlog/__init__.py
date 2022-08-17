@@ -3,22 +3,15 @@
 """
 
 
-try:
-    import importlib.metadata as importlib_metadata
-except ImportError:
-    import importlib_metadata as importlib_metadata  # type: ignore
-try:
-    __version__ = importlib_metadata.version(__package__ or __name__)
-except importlib_metadata.PackageNotFoundError:
-    import toml
+import sys
 
-    __version__ = (
-        toml.load("pyproject.toml")
-        .get("tool", {})
-        .get("poetry", {})
-        .get("version", "unknown")
-        + "-dev"
-    )
+
+if sys.version_info >= (3, 8):
+    import importlib.metadata as metadata
+else:
+    import importlib_metadata as metadata
+
+__version__ = metadata.version(__package__ or __name__)
 
 from ._formatter import Formatter
 

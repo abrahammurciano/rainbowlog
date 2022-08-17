@@ -11,10 +11,15 @@ $ pip install rainbowlog
 ```sh
 $ conda install rainbowlog -c abrahammurciano
 ```
+```sh
+$ conda install rainbowlog -c conda-forge
+```
 
-## Docs
+## Links
 
-You can find the documentation [here](https://abrahammurciano.github.io/rainbowlog/rainbowlog)
+* [Documentation](https://abrahammurciano.github.io/rainbowlog/rainbowlog)
+* [Github](https://github.com/abrahammurciano/rainbowlog)
+* [PyPI](https://pypi.org/project/rainbowlog/)
 
 ## Usage
 
