@@ -13,7 +13,7 @@ keywords = ["logging", "color"]
 [tool.poetry.dependencies]
 python = "^3.7"
 importlib-metadata = ">=4.11"
-constyle = ">=1.0.2"
+constyle = ">=2.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.1"
