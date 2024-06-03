@@ -24,13 +24,5 @@ jobs:
         run: pip install dist/*.whl
       - name: Set POETRY_VERSION environment variable
         run: echo "POETRY_VERSION=$(poetry version -s)" >> $GITHUB_ENV
-      - name: Build and Publish Conda Package
-        uses: amauryval/publish_conda_package_action@2.0.3
-        with:
-          CondaDir: 'conda-recipe'
-          Channels: 'conda-forge abrahammurciano'
-          Platforms: 'noarch'
-          CondaUsername: ${{ secrets.ANACONDA_USERNAME }}
-          CondaPassword: ${{ secrets.ANACONDA_PASSWORD }}
       - name: Publish Pip Package
         run: poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}
