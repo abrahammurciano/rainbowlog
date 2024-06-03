@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: 3.7
       - name: Get Poetry
-        uses: abatilo/actions-poetry@v3
+        run: pip install poetry
       - name: Set Version
         run: poetry version $(echo ${{ github.event.release.tag_name }} | cut -d 'v' -f 2)
       - name: Build Package
@@ -25,4 +25,4 @@ jobs:
       - name: Set POETRY_VERSION environment variable
         run: echo "POETRY_VERSION=$(poetry version -s)" >> $GITHUB_ENV
       - name: Publish Pip Package
-        run: poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}
+        run: poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
