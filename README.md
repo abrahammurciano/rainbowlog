@@ -4,15 +4,12 @@ Format your python logs with colours based on the log levels.
 
 ## Installation
 
-You can instll the package with pip or conda.
+You can instll the package with pip.
 ```sh
 $ pip install rainbowlog
 ```
 ```sh
 $ conda install rainbowlog -c abrahammurciano
-```
-```sh
-$ conda install rainbowlog -c conda-forge
 ```
 
 ## Links
