@@ -7,10 +7,9 @@ authors = [{ name = "Abraham Murciano", email = "abrahammurciano@gmail.com" }]
 license = "MIT"
 readme = "README.md"
 keywords = ["logging", "color"]
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 dependencies = [
 	"constyle>=2.0.5",
-	"importlib-metadata>=6.7.0 ; python_full_version < '3.8'",
 ]
 
 [project.urls]
