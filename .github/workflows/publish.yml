@@ -21,7 +21,5 @@ jobs:
         run: uv build
       - name: Check Build
         run: pip install dist/*.whl
-      - name: Set POETRY_VERSION environment variable
-        run: echo "POETRY_VERSION=$(poetry version -s)" >> $GITHUB_ENV
       - name: Publish Pip Package
         run: uv publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
