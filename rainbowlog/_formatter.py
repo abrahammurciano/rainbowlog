@@ -1,7 +1,7 @@
 import logging
-from typing import Callable, Mapping
-from constyle import Attributes
+from typing import Callable, Mapping, Optional
 
+from constyle import Attributes
 
 default_styles = {
     logging.DEBUG: Attributes.DIM,
@@ -17,7 +17,7 @@ class Formatter(logging.Formatter):
 
     If you want to use different colors from the default ones, you can pass a mapping to the log_styles argument in the constructor. This mapping should be from log levels (ints) to style callable.
 
-    A style callcable is a one which takes a string and returns a string. It should return the given string with the desired ANSI codes surrounding it. For example `[constyle.Style](https://abrahammurciano.github.io/python-constyle/constyle/#constyle.Style)` and `ansicolors.red`, `ansicolors.green`, etc. objects are good candidates.
+    A style callable is a one which takes a string and returns a string. It should return the given string with the desired ANSI codes surrounding it. For example `[constyle.Style](https://abrahammurciano.github.io/python-constyle/constyle/#constyle.Style)` and `ansicolors.red`, `ansicolors.green`, etc. objects are good candidates.
 
     You can also create your own easily by using `functools.partial` or lambdas with any other library you want, or using functions which wrap a string in ANSI escape codes directly.
     """
@@ -26,8 +26,8 @@ class Formatter(logging.Formatter):
         self,
         inner_formatter: logging.Formatter = logging.Formatter(),
         log_styles: Mapping[int, Callable[[str], str]] = default_styles,
-        exception_style: Callable[[str], str] = None,
-        stack_style: Callable[[str], str] = None,
+        exception_style: Optional[Callable[[str], str]] = None,
+        stack_style: Optional[Callable[[str], str]] = None,
     ):
         """
         Args:
